@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema({
     userNumber: String,
     authority: String,
     email: String,
-    createAt: {
+    createdAt: {
         type: Date,
         default: Date.now()
     }

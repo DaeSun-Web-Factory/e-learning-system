@@ -14,7 +14,7 @@ const UserInfo = () => {
 
 
     return (
-        <Container maxidth="lg" className={classes.root}>
+        <Container maxidth="lg" >
              <AppBar position="static" color="inherit">
                 <Toolbar>
 
