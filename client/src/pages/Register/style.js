@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, responsiveFontSizes } from '@material-ui/core/styles';
 
 export default makeStyles(() => ({
   appBar: {
@@ -11,7 +11,7 @@ export default makeStyles(() => ({
   },
   heading: {
     color: 'rgba(0,0,0,1)',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   }
 
 }));

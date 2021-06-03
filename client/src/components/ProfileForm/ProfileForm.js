@@ -2,6 +2,8 @@ import React from 'react';
 
 import { useSelector } from 'react-redux';
 
+import { PROFESSOR, STUDENT } from '../../constants/authorityType'
+
 import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 
 import useStyles from './style';
@@ -49,8 +51,8 @@ const ProfileForm = () => {
                 />
 
                 <RadioGroup row aria-label="권한" name="authority1" value={myUser.authority} disabled>
-                    <FormControlLabel value="학생" control={<Radio />} label="학생" />
-                    <FormControlLabel value="교수" control={<Radio />} label="교수" />
+                    <FormControlLabel value={STUDENT} control={<Radio />} label="학생" />
+                    <FormControlLabel value={PROFESSOR} control={<Radio />} label="교수" />
                 </RadioGroup>
 
                 <TextField 

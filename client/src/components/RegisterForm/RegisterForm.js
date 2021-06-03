@@ -11,6 +11,8 @@ import crypto from 'crypto';
 
 import { Link, useHistory } from 'react-router-dom';
 
+import { PROFESSOR, STUDENT } from '../../constants/authorityType'
+
 
 
 const RegisterForm = () => {
@@ -120,8 +122,8 @@ const RegisterForm = () => {
                 />
 
                 <RadioGroup row aria-label="권한" name="authority1" value={userData.authority} onChange={(e) => setUserData({...userData, authority: e.target.value})}>
-                    <FormControlLabel value="학생" control={<Radio />} label="학생" />
-                    <FormControlLabel value="교수" control={<Radio />} label="교수" />
+                    <FormControlLabel value={STUDENT} control={<Radio />} label="학생" />
+                    <FormControlLabel value={PROFESSOR} control={<Radio />} label="교수" />
                 </RadioGroup>
 
                 <TextField 
