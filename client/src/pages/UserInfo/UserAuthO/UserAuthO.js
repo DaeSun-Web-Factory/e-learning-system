@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 
 import {useDispatch} from 'react-redux';
 
-import { getUsers } from '../../actions/users'
+import { getUsers } from '../../../actions/users'
 
 //front UI
 import {Container, AppBar, Typography, Grow, Grid} from '@material-ui/core';
-import UserAuthOForm from '../../components/UserAuthOForm/UserAuthOForm';
+import UserAuthOForm from '../../../components/ProfileForm/UserAuthOForm/UserAuthOForm';
 import useStyles from './style';
 
 const UserAuthO = () => {

@@ -4,7 +4,6 @@ const courseSchema = mongoose.Schema({
     courseName: String,
     courseNumber: String,
     classNumber: String,
-    userNumber: String,
     year: Number,
     semester: Number,
     professor: String,
@@ -18,6 +17,10 @@ const courseSchema = mongoose.Schema({
         createdAt: Date,
     }],
     createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    updatedAt: {
         type: Date,
         default: Date.now()
     }

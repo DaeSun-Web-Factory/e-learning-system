@@ -5,12 +5,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
 
 import useStyles from './style';
-import { updateUser } from '../../actions/users';
-import { setMyUser } from '../../actions/myUser';
+import { updateUser } from '../../../actions/users';
+import { setMyUser } from '../../../actions/myUser';
 
 import crypto from 'crypto';
 
 import { Link, useHistory } from 'react-router-dom';
+import { STUDENT, PROFESSOR } from '../../../constants/authorityType';
 
 
 const UserEditForm = () => {
@@ -39,7 +40,7 @@ const UserEditForm = () => {
 
         const hashedPassword = crypto.createHmac('sha256', secret).update(userData.password).digest('hex');
 
-        const editedUserData = Object.assign(userData, {password: hashedPassword});
+        const editedUserData = Object.assign(userData, {password: hashedPassword, updatedAt: Date.now()});
 
         const editedMyUserData = Object.assign(myUser, editedUserData);
 
@@ -54,7 +55,7 @@ const UserEditForm = () => {
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant="h6"> Type Your Info </Typography>
-
+                
 
                 <TextField 
                     name="userId" 
@@ -106,8 +107,8 @@ const UserEditForm = () => {
                 />
 
                 <RadioGroup row aria-label="권한" name="authority1" value={userData.authority} onChange={(e) => setUserData({...userData, authority: e.target.value})}>
-                    <FormControlLabel value="학생" control={<Radio />} label="학생" />
-                    <FormControlLabel value="교수" control={<Radio />} label="교수" />
+                    <FormControlLabel value={STUDENT} control={<Radio />} label="학생" />
+                    <FormControlLabel value={PROFESSOR} control={<Radio />} label="교수" />
                 </RadioGroup>
 
                 <TextField 

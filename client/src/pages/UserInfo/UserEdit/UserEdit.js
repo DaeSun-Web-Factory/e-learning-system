@@ -2,11 +2,11 @@ import React, {useEffect} from 'react';
 
 import {useDispatch} from 'react-redux';
 
-import { getUsers } from '../../actions/users'
+import { getUsers } from '../../../actions/users'
 
 //front UI
 import {Container, AppBar, Typography, Grow, Grid} from '@material-ui/core';
-import UserEditForm from '../../components/UserEditForm/UserEditForm';
+import UserEditForm from '../../../components/ProfileForm/UserEditForm/UserEditForm';
 import useStyles from './style';
 
 const UserEdit = () => {
