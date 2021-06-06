@@ -9,20 +9,25 @@ import StarBorderIcon from '@material-ui/icons/StarBorder';
 import MenuBookIcon from '@material-ui/icons/MenuBook';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
+// route
+import { useHistory } from 'react-router-dom';
+
 const UserInfo = () => {
     const classes = useStyles();
-
+    const history = useHistory();
 
     return (
         <Container maxidth="lg" >
              <AppBar position="static" color="inherit">
                 <Toolbar>
 
-                    <IconButton edge="start" className={classes.startIconButton} color="inherit" aria-label="lastest">
+                    <IconButton edge="start" className={classes.startIconButton} color="inherit" aria-label="lastest"
+                        onClick={() => {history.push("/");}}>
                         <StarBorderIcon fontSize="large"/>
                     </IconButton>
 
-                    <IconButton edge="start" className={classes.startIconButton} color="inherit" aria-label="courses">
+                    <IconButton edge="start" className={classes.startIconButton} color="inherit" aria-label="courses"
+                        onClick={() => {history.push("/course");}}>
                         <MenuBookIcon fontSize="large"/>
                     </IconButton>
 
@@ -30,7 +35,8 @@ const UserInfo = () => {
                         User Profile
                     </Typography>
 
-                    <IconButton edge="end" color="inherit" aria-label="profile">
+                    <IconButton edge="end" color="inherit" aria-label="profile"
+                        onClick={() => {history.push("/userprofile");}}>
                         <AccountCircleIcon fontSize="large"/>
                     </IconButton>
 

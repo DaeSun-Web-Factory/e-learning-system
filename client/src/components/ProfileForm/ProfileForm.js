@@ -1,13 +1,14 @@
 import React from 'react';
 
+// redux
 import { useSelector } from 'react-redux';
-
 import { PROFESSOR, STUDENT } from '../../constants/authorityType'
 
+// UI
 import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
-
 import useStyles from './style';
 
+//route
 import { Link } from 'react-router-dom';
 
 

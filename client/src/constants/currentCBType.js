@@ -1,0 +1,2 @@
+export const SET_COURSE_ID = 'SET_COURSE_ID';
+export const SET_BULLETIN_ID = 'SET_BULLETIN_ID';

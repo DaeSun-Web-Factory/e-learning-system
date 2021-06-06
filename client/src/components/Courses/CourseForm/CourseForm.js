@@ -2,69 +2,69 @@ import React, { useState } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
+import { createCourse } from '../../../actions/courses';
+
+import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio,
+    List, ListItem, ListItemIcon, ListItemText, Checkbox } from '@material-ui/core';
+
+
+import { WINTER_SESSIONS, SPRING_SEMESTER, SUMMER_SESSIONS, FALL_SEMESTER } from '../../../constants/semesterType'
 
 import useStyles from './style';
-import { createUser } from '../../../actions/users';
 
-import crypto from 'crypto';
-
-import { Link, useHistory } from 'react-router-dom';
-
-import { PROFESSOR, STUDENT } from '../../../constants/authorityType'
-
+import { STUDENT } from '../../../constants/authorityType';
 
 
 const CourseForm = () => {
     const users = useSelector((state) => state.users);
+    const myUser = useSelector((state) => state.myUser);
     const dispatch = useDispatch();
 
-    const history = useHistory();
+    const students = users.filter(user => user.authority === STUDENT);
+    const studentIndeces = [...Array(students.length).keys()]
 
-    const [userData, setUserData] = useState({
-        userId: '', password: '', passwordAgain: '', name: '', userNumber:"", authority: '', email: ''
+    const [courseData, setCourseData] = useState({
+        courseName: '', courseNumber: '', classNumber: '', year: '', semester: ''
     });
+
+    const [checkedStudentIndeces, setCheckedStudentIndeces] = useState([]);
 
     const classes = useStyles();
 
-    
 
+    const handleToggle = (value) => () => {
+        const currentIndex = checkedStudentIndeces.indexOf(value);
+        const newChecked = [...checkedStudentIndeces];
+    
+        if (currentIndex === -1) {
+            newChecked.push(value);
+        } 
+        else {
+            newChecked.splice(currentIndex, 1);
+        }
+    
+        setCheckedStudentIndeces(newChecked);
+
+    };
+
+    
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const duplicatedId = users.find(user => user.userId === userData.userId);
+        const selectedStudents = students.filter( (student, index, array) => {
+            return studentIndeces.includes(index);
+        });
 
-        if (duplicatedId){
-            alert('이미 사용중인 ID입니다. 다른 아이디를 입력해주세요');
-            return;
-        }
+        const selectedStudentsIds = selectedStudents.map(selectedStudent => selectedStudent.userId);
 
-        if (userData.password !== userData.passwordAgain){
-            alert('비밀번호가 서로 일치하지 않습니다.');
-            return;
-        }
-        
-        const secret = process.env.REACT_APP_PASSWORD_SECRET_KEY;
+        const newCourseData = Object.assign(courseData, {professor: myUser.name, students: selectedStudentsIds,  bulletins: [], createdAt: Date.now(), updatedAt: Date.now()});
 
-        const hashedPassword = crypto.createHmac('sha256', secret).update(userData.password).digest('hex');
+        console.log(selectedStudentsIds)
 
-        const newUserData = {
-            userId: userData.userId,
-            password: hashedPassword,
-            name: userData.name,
-            userNumber: userData.userNumber,
-            authority: userData.authority,
-            email: userData.email
-        }
-
-        dispatch(createUser(newUserData));
-
-        alert('가입 완료!');
-
-        history.push("/");
-
-
+        dispatch(createCourse(newCourseData));
     }
+
+
 
     return (
         <Paper className={classes.paper}>
@@ -73,67 +73,71 @@ const CourseForm = () => {
 
 
                 <TextField 
-                    name="userId" 
+                    name="courseName" 
                     variant="outlined" 
-                    label="ID" 
+                    label="과목명" 
                     fullWidth
-                    value={userData.userId}
-                    onChange={(e) => setUserData({...userData, userId: e.target.value})}
+                    value={courseData.courseName}
+                    onChange={(e) => setCourseData({...courseData, courseName: e.target.value})}
                 />
 
                 <TextField 
-                    name="password" 
+                    name="courseNumber" 
                     variant="outlined" 
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
+                    label="학수번호" 
                     fullWidth
-                    value={userData.password}
-                    onChange={(e) => setUserData({...userData, password: e.target.value})}
+                    value={courseData.courseNumber}
+                    onChange={(e) => setCourseData({...courseData, courseNumber: e.target.value})}
                 />
 
                 <TextField 
-                    name="passwordAgain" 
+                    name="classNumber" 
                     variant="outlined" 
-                    label="Confirm Password" 
-                    type="password"
-                    autoComplete="current-password"
+                    label="분반" 
                     fullWidth
-                    value={userData.passwordAgain}
-                    onChange={(e) => setUserData({...userData, passwordAgain: e.target.value})}
+                    value={courseData.classNumber}
+                    onChange={(e) => setCourseData({...courseData, classNumber: e.target.value})}
                 />
 
                 <TextField 
-                    name="name" 
+                    name="year" 
                     variant="outlined" 
-                    label="User Name" 
+                    label="개설년도" 
                     fullWidth
-                    value={userData.name}
-                    onChange={(e) => setUserData({...userData, name: e.target.value})}
+                    value={courseData.year}
+                    onChange={(e) => setCourseData({...courseData, year: e.target.value})}
                 />
 
-                <TextField 
-                    name="userNumber" 
-                    variant="outlined" 
-                    label="학번/교번" 
-                    fullWidth
-                    value={userData.userNumber}
-                    onChange={(e) => setUserData({...userData, userNumber: e.target.value})}
-                />
-
-                <RadioGroup row aria-label="권한" name="authority1" value={userData.authority} onChange={(e) => setUserData({...userData, authority: e.target.value})}>
-                    <FormControlLabel value={STUDENT} control={<Radio />} label="학생" />
-                    <FormControlLabel value={PROFESSOR} control={<Radio />} label="교수" />
+                <RadioGroup row aria-label="학기" name="학기" value={courseData.semester} onChange={(e) => setCourseData({...courseData, semester: e.target.value})}>
+                    <FormControlLabel value={WINTER_SESSIONS} control={<Radio />} label="계절학기-겨울" />
+                    <FormControlLabel value={SPRING_SEMESTER} control={<Radio />} label="1학기" />
+                    <FormControlLabel value={SUMMER_SESSIONS} control={<Radio />} label="계절학기-여름" />
+                    <FormControlLabel value={FALL_SEMESTER} control={<Radio />} label="2학기" />
                 </RadioGroup>
 
-                <TextField 
-                    name="email" 
-                    variant="outlined" 
-                    label="Email" 
-                    fullWidth
-                    value={userData.email}
-                    onChange={(e) => setUserData({...userData, email: e.target.value})}
-                />
+                    <List className={classes.list}>
+                        {studentIndeces.map((value) => {
+                            const labelId = `checkbox-list-label-${value}`;
+
+                            return (
+                            <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
+                                <ListItemIcon>
+                                <Checkbox
+                                    edge="start"
+                                    checked={checkedStudentIndeces.indexOf(value) !== -1}
+                                    tabIndex={-1}
+                                    disableRipple
+                                    inputProps={{ 'aria-labelledby': labelId }}
+                                />
+                                </ListItemIcon>
+
+                                <ListItemText id={labelId} primary={`${students[value].name} : ${students[value].userNumber}`} />
+
+                            </ListItem>
+                            );
+                        })}
+                    </List>
+
 
                 <Button 
                     className={classes.buttonSubmit} 
@@ -143,22 +147,9 @@ const CourseForm = () => {
                     type="submit" 
                     fullWidth
                 >
-                    가입완료
+                    과목 개설
                 </Button>
 
-                <Link className={`${classes.buttonSubmit} ${classes.loginLink}`} to="/">
-
-                    <Button 
-                        variant="contained" 
-                        color="secondary" 
-                        size="small" 
-                        fullWidth
-                    >
-                        로그인 화면으로
-                        
-                    </Button>
-                    
-                </Link>
             </form>
         </Paper>
     );

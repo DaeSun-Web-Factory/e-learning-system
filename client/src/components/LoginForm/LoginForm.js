@@ -40,7 +40,7 @@ const LoginForm = () => {
         if (loginUserData){
             if (loginUserData.password === hashedPassword){
                 dispatch(setMyUser(loginUserData));
-                history.push("/userprofile");
+                history.push("/course");
             }
     
             else {

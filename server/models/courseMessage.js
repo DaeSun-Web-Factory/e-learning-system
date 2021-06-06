@@ -5,7 +5,7 @@ const courseSchema = mongoose.Schema({
     courseNumber: String,
     classNumber: String,
     year: Number,
-    semester: Number,
+    semester: String,
     professor: String,
     students: [String],
     bulletins: [{
@@ -16,16 +16,11 @@ const courseSchema = mongoose.Schema({
         content: String,
         createdAt: Date,
     }],
-    createdAt: {
-        type: Date,
-        default: Date.now()
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now()
-    }
+    createdAt: Date,
+    updatedAt: Date
+        
 });
 
-const CourseMessage = mongoose.model('courseSchema', courseSchema);
+const CourseMessage = mongoose.model('CourseMessages', courseSchema);
 
 export default CourseMessage;
