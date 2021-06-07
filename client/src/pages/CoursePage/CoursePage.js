@@ -55,7 +55,7 @@ const CoursePage = () => {
 
             <Grow in>
                 <Container className={classes.content}>
-                    <Grid container alignItems="stretch" spacing={3} justify="space-between">
+                    <Grid className={classes.mainContainer} container alignItems="stretch" spacing={3} justify="space-between">
                         <Grid item xs={12} sm={7}>
                             <CourseList/> 
                         </Grid>

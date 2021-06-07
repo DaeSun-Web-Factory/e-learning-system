@@ -31,6 +31,13 @@ export default makeStyles((theme) => ({
 
   content:{
     margin: '30px 0',
+  },
+
+  [theme.breakpoints.down('sm')] : {
+    mainContainer:{
+      flexDirection: "column-reverse"
+    }
   }
+
 
 }));
