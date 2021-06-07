@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
 
+//redux
 import { useSelector, useDispatch } from 'react-redux';
-
 import { createCourse, updateCourse } from '../../../actions/courses';
+import { resetCourseId } from '../../../actions/currentCourse';
 
+//UI
 import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio,
     List, ListItem, ListItemIcon, ListItemText, Checkbox } from '@material-ui/core';
 
-
 import { WINTER_SESSIONS, SPRING_SEMESTER, SUMMER_SESSIONS, FALL_SEMESTER } from '../../../constants/semesterType'
-
 import useStyles from './style';
-
 import { STUDENT } from '../../../constants/authorityType';
 
 
@@ -87,6 +86,16 @@ const CourseForm = () => {
     
             dispatch(updateCourse(currentCourseId, newCourseData));
         }
+        
+    }
+
+    const clear = (e) => {
+        e.preventDefault();
+
+        setCourseData({courseName: '', courseNumber: '', classNumber: '', year: '', semester: ''});
+        setCheckedStudentIndeces([]);
+        dispatch(resetCourseId())
+
         
     }
 
@@ -174,6 +183,19 @@ const CourseForm = () => {
                     fullWidth
                 >
                     {currentCourseId ? "과목 수정" : "과목 개설"}
+                </Button>
+
+                <Button 
+                    className={classes.buttonSubmit} 
+                    variant="contained" 
+                    color="secondary" 
+                    size="small" 
+                    fullWidth
+                    onClick={clear}
+                    
+                >
+                    Reset
+                        
                 </Button>
 
             </form>
