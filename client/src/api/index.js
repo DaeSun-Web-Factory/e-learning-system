@@ -12,3 +12,4 @@ const courseUrl = 'http://localhost:5000/courses';
 export const fetchCourses = () => axios.get(courseUrl);
 export const createCourse = (newCourse) => axios.post(courseUrl, newCourse);
 export const updateCourse = (id, updatedCourse) => axios.patch(`${courseUrl}/${id}`, updatedCourse);
+export const deleteCourse = (id) => axios.delete(`${courseUrl}/${id}`);

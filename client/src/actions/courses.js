@@ -1,5 +1,5 @@
 import * as api from '../api';
-import { FETCH_COURSE_ALL, CREATE_COURSE, UPDATE_COURSE} from '../constants/coursesActionType';
+import { FETCH_COURSE_ALL, CREATE_COURSE, UPDATE_COURSE, DELETE_COURSE } from '../constants/coursesActionType';
 
 export const getCourses = () => async (dispatch) => {
     try {
@@ -30,7 +30,18 @@ export const updateCourse = (id, course) => async (dispatch) => {
     } 
     
     catch (error) {
-        console.log(error.message);
+        console.log(error);
+    }
+}
+
+export const deleteCourse = (id) => async (dispatch) => {
+    try {
+        await api.deleteCourse(id);
+        dispatch({ type : DELETE_COURSE, payload: id});
+    } 
+    
+    catch (error) {
+        console.log(error);
     }
 }
 

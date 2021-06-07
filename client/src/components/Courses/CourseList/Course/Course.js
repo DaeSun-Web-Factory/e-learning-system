@@ -3,6 +3,7 @@ import React from 'react';
 //redux
 import { useDispatch } from 'react-redux';
 import { setCourseId } from '../../../../actions/currentCourse.js'
+import { deleteCourse } from '../../../../actions/courses'
 
 //constants
 import { WINTER_SESSIONS, SPRING_SEMESTER, SUMMER_SESSIONS, FALL_SEMESTER } from '../../../../constants/semesterType'
@@ -236,7 +237,7 @@ const Course = ({ course }) => {
                     Edit
                 </Button>
 
-                <Button size="small" color="primary" onClick={() => {}}>
+                <Button size="small" color="primary" onClick={() => dispatch(deleteCourse(course._id))}>
                     <DeleteOutlineIcon fontSize="small" />
                     Delete
                 </Button>
