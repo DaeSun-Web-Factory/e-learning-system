@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 
 // redux
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getCourses } from '../../actions/courses'
 
 // route

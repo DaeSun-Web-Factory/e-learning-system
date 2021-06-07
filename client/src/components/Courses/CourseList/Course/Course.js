@@ -1,5 +1,9 @@
 import React from 'react';
 
+//redux
+import { useDispatch } from 'react-redux';
+import { setCourseId } from '../../../../actions/currentCourse.js'
+
 //constants
 import { WINTER_SESSIONS, SPRING_SEMESTER, SUMMER_SESSIONS, FALL_SEMESTER } from '../../../../constants/semesterType'
 
@@ -33,9 +37,13 @@ import psyImage from '../../../../images/psy.png';
             <CardContent>
                 <Typography className={classes.title} variant="h5" gutterBottm> {`${course.courseNumber}:${course.courseName}`} </Typography>
             </CardContent>
+
+            setCurrentCourseId(course._id)
 */
 
 const Course = ({ course }) => {
+    const dispatch = useDispatch();
+
     const classes = useStyles();
 
     const courseUniv = course.courseNumber.slice(-7, -3)
@@ -197,8 +205,11 @@ const Course = ({ course }) => {
         default:
             break;
     }
-    
-    
+
+    const selectCourse = () => {
+        dispatch(setCourseId(course))
+    }
+
     return (
         <Card className={classes.card}>
             <CardMedia className={classes.media} image={thumbnail} title={course.courseName}> </CardMedia>
@@ -209,14 +220,18 @@ const Course = ({ course }) => {
                 <Typography variant="body2"> {`${course.professor} 교수님`} </Typography>
             </div>
 
-            <div className={classes.details}>
-                <Typography variant="body2" color="textSecondary"> {`${course.year}년 ${semesterString}`} </Typography>
+
+            <div className={classes.detailsTop}>
+                <Typography variant="body2" color="textSecondary"> {`${course.year}년 ${semesterString}`}</Typography>
+            </div>
+
+            <div className={classes.detailsBottom}>
                 <Typography variant="body2" color="textSecondary"> 최근 업데이트: {moment(course.updatedAt).fromNow()} </Typography>
             </div>
 
 
             <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => {}}>
+                <Button size="small" color="primary" onClick={() => {selectCourse()}}>
                     <EditIcon fontSize="small" />
                     Edit
                 </Button>

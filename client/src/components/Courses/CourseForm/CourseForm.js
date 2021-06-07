@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { createCourse } from '../../../actions/courses';
+import { createCourse, updateCourse } from '../../../actions/courses';
 
 import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio,
     List, ListItem, ListItemIcon, ListItemText, Checkbox } from '@material-ui/core';
@@ -18,6 +18,9 @@ import { STUDENT } from '../../../constants/authorityType';
 const CourseForm = () => {
     const users = useSelector((state) => state.users);
     const myUser = useSelector((state) => state.myUser);
+    const currentCourseId = useSelector((state) => state.currentCourse._id);
+    const currentCourse = useSelector ((state) => currentCourseId? state.courses.find((c) => c._id === currentCourseId) : null);
+
     const dispatch = useDispatch();
 
     const students = users.filter(user => user.authority === STUDENT);
@@ -30,6 +33,23 @@ const CourseForm = () => {
     const [checkedStudentIndeces, setCheckedStudentIndeces] = useState([]);
 
     const classes = useStyles();
+
+
+    useEffect(() => {
+        if(currentCourse) {
+            setCourseData(currentCourse)
+
+            let originalStudentIndeces = []
+
+            for (let studentIndex = 0; studentIndex < currentCourse.students.length; studentIndex++){
+                if (students.map(student => student.userId).includes(currentCourse.students[studentIndex])){
+                    originalStudentIndeces.push(students.map(student => student.userId).indexOf(currentCourse.students[studentIndex]))
+                }
+            }
+
+            setCheckedStudentIndeces(originalStudentIndeces)
+        }
+    }, [currentCourse])
 
 
     const handleToggle = (value) => () => {
@@ -51,17 +71,23 @@ const CourseForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        const selectedStudents = students.filter( (student, index, array) => {
-            return studentIndeces.includes(index);
-        });
+        const selectedStudentsIds = checkedStudentIndeces.map(checkedStudentIndex => students[checkedStudentIndex].userId);
 
-        const selectedStudentsIds = selectedStudents.map(selectedStudent => selectedStudent.userId);
+        //create
+        if (!currentCourseId){
 
-        const newCourseData = Object.assign(courseData, {professor: myUser.name, students: selectedStudentsIds,  bulletins: [], createdAt: Date.now(), updatedAt: Date.now()});
+            const newCourseData = Object.assign(courseData, {professor: myUser.name, students: selectedStudentsIds, bulletins: [], createdAt: Date.now(), updatedAt: Date.now()});
+    
+            dispatch(createCourse(newCourseData));
+        }
 
-        console.log(selectedStudentsIds)
-
-        dispatch(createCourse(newCourseData));
+        //update
+        else {    
+            const newCourseData = Object.assign(courseData, {students: selectedStudentsIds, updatedAt: Date.now()});
+    
+            dispatch(updateCourse(currentCourseId, newCourseData));
+        }
+        
     }
 
 
@@ -147,7 +173,7 @@ const CourseForm = () => {
                     type="submit" 
                     fullWidth
                 >
-                    과목 개설
+                    {currentCourseId ? "과목 수정" : "과목 개설"}
                 </Button>
 
             </form>

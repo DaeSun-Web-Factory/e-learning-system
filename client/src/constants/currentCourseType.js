@@ -1,0 +1,2 @@
+export const SET_COURSE_ID = 'SET_COURSE_ID';
+export const RESET_COURSE_ID = 'RESET_COURSE_ID';

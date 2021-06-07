@@ -1,4 +1,4 @@
-import { SET_COURSE_ID, SET_BULLETIN_ID } from '../constants/currentCBType'
+import { SET_COURSE_ID, RESET_COURSE_ID } from '../constants/currentCourseType'
 
 export const setCourseId = (courseID) =>  (dispatch) => {
     try {
@@ -10,9 +10,9 @@ export const setCourseId = (courseID) =>  (dispatch) => {
     }
 }
 
-export const setBulletinId = (bulletinID) =>  (dispatch) => {
+export const resetCourseId = () =>  (dispatch) => {
     try {
-        dispatch({ type : SET_BULLETIN_ID, payload: bulletinID});
+        dispatch({ type : RESET_COURSE_ID, payload: []});
     } 
     
     catch (error) {

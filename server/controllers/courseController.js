@@ -33,13 +33,25 @@ export const createCourse = async (request, response) => {
 
 export const updatedCourse = async (request, response) => {
     const { id: _id } = request.params;
-    const user = request.body;
+    const course = request.body;
 
     if (!mongoose.Types.ObjectId.isValid(_id)){
         return response.status(404).send('No vaild ID');
     }
 
-    const updatedUser = await CourseMessage.findByIdAndUpdate(_id, user, {new: true});
+    const updatedCourse = await CourseMessage.findByIdAndUpdate(_id, course, {new: true});
 
-    response.send(updatedUser);
+    response.send(updatedCourse);
+}
+
+export const deleteCourse = async (request, response) => {
+    const { id: _id } = request.params;
+
+    if (!mongoose.Types.ObjectId.isValid(_id)){
+        return response.status(404).send('No vaild ID');
+    }
+
+    await CourseMessage.findByIdAndRemove(_id);
+
+    response.send({message: 'Course deleted successfully'});
 }

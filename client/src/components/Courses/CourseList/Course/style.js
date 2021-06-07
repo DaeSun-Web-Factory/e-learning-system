@@ -37,10 +37,17 @@ export default makeStyles({
   grid: {
     display: 'flex',
   },
-  details: {
+  detailsTop: {
     display: 'flex',
     justifyContent: 'space-between',
-    margin: '20px',
+    marginLeft: '20px',
+    marginTop: '20px',
+  },
+  detailsBottom: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginLeft: '20px',
+    marginBottom: '20px',
   },
   title: {
     padding: '0 16px',
