@@ -18,8 +18,8 @@ const BulletinForm = () => {
     const currentCourseId = useSelector((state) => state.currentCourse._id);
     const currentCourse = useSelector ((state) => currentCourseId? state.courses.find((c) => c._id === currentCourseId) : null);
 
-    const currentBuelltinId = useSelector((state) => state.currentBulletin._id);
-    const currentBulletin = currentCourse.bulletins.map(bulletin => bulletin.Id === currentBuelltinId)
+    const currentBuelltinId = useSelector((state) => state.currentBulletin.Id);
+    let currentBulletin =  useSelector ((state) => currentBuelltinId? state.courses.find((c) => c._id === currentCourseId).bulletins.find((b) => b.Id === currentBuelltinId) : null);
 
     const dispatch = useDispatch();
 
@@ -28,6 +28,13 @@ const BulletinForm = () => {
     });
 
     const classes = useStyles();
+
+
+    useEffect(() => {
+        if(currentBulletin) {
+            setBulletinData(currentBulletin)
+        }
+    }, [currentBulletin])
 
     const handleToggle = () => {
         if (bulletinData.announce) {
@@ -41,17 +48,50 @@ const BulletinForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        console.log(currentBuelltinId)
 
-        const newBulletinData = Object.assign(bulletinData, {Id: uuidv4(), createdAt: Date.now(), updatedAt: Date.now()});
-        let newCourseData = Object.assign({}, currentCourse);
-        newCourseData.bulletins.push(newBulletinData)
+        //create
+        if (!currentBuelltinId){
 
-        const submitCourseData = Object.assign({}, newCourseData);
+            const newBulletinData = Object.assign(bulletinData, {Id: uuidv4(), createdAt: Date.now(), updatedAt: Date.now()});
+            let newCourseData = Object.assign({}, currentCourse);
+    
+            if (newBulletinData.announce){
+                for (let bulletinIndex = 0; bulletinIndex < newCourseData.bulletins.length; bulletinIndex++){
+                    newCourseData.bulletins[bulletinIndex].announce = false
+                }
+            }
+            newCourseData.bulletins.push(newBulletinData)
+            newCourseData.updatedAt = Date.now()
+    
+            const submitCourseData = Object.assign({}, newCourseData);
+    
+            dispatch(updateCourse(currentCourseId, submitCourseData));
+        }
 
-        console.log(newBulletinData);
-        console.log(submitCourseData);
+        //edit
+        else {
+            const updateBulletinData = Object.assign(bulletinData, {updatedAt: Date.now()});
+            let newCourseData = Object.assign({}, currentCourse);
+    
+            if (updateBulletinData.announce){
+                for (let bulletinIndex = 0; bulletinIndex < newCourseData.bulletins.length; bulletinIndex++){
+                    newCourseData.bulletins[bulletinIndex].announce = false
+                }
+            }
+            const targetBulletinIndex = newCourseData.bulletins.findIndex((bulletin) => bulletin.Id === updateBulletinData.Id)
 
-        dispatch(updateCourse(currentCourseId, submitCourseData));
+            newCourseData.bulletins[targetBulletinIndex] = updateBulletinData
+            newCourseData.updatedAt = Date.now()
+    
+            const submitCourseData = Object.assign({}, newCourseData);
+    
+            dispatch(updateCourse(currentCourseId, submitCourseData));
+        }
+
+        setBulletinData({title: '', announce: false, type: '', content: '', fileContents: []});
+        dispatch(resetBulletinId())   
+
     }
 
     const clear = (e) => {

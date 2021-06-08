@@ -1,76 +1,84 @@
 import React from 'react';
 
-// route
-import { useHistory } from 'react-router-dom';
-
 
 //redux
-import { useDispatch } from 'react-redux';
-import { setCourseId } from '../../../../actions/currentCourse.js'
-import { deleteCourse } from '../../../../actions/courses'
+import { useSelector, useDispatch } from 'react-redux';
+import { updateCourse } from '../../../../actions/courses';
+import { setBulletinId } from '../../../../actions/currentBulletin'
 
 //constants
+import { NOTICE, ASSIGNMENT } from '../../../../constants/bulletinType';
 
 // UI
 import { Card, CardActions, Button, Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 import useStyles from './style';
 
 
-
-
-
-const Course = ({ course }) => {
-    // route
-    const history = useHistory();
-
+const Bulletin = ({ bulletin }) => {
     // redux
     const dispatch = useDispatch();
+    const currentCourseId = useSelector((state) => state.currentCourse._id);
+    const currentCourse = useSelector ((state) => currentCourseId? state.courses.find((c) => c._id === currentCourseId) : null);
 
     // UI
     const classes = useStyles();
 
+    const selectBulletin = () => {
+        dispatch(setBulletinId(bulletin))
+    }
 
+    const deleteBulletin = () => {
+        
 
-    const selectCourse = () => {
-        dispatch(setCourseId(course))
+        let newCourseData = Object.assign({}, currentCourse);
+
+    }
+
+    //text
+    let titleExplanation = "";
+    if (bulletin.announce){
+        titleExplanation = "공지사항";
+    }
+    else{
+        switch (bulletin.type) {
+            case NOTICE:
+                titleExplanation = "안내사항";
+                break;
+
+            case ASSIGNMENT:
+                titleExplanation = "과제";
+                break;
+        
+            default:
+                break;
+        }
     }
 
     return (
         <Card className={classes.card} >
-
-            <div className={classes.overlay}>
-                <Typography variant="h6"> {`${course.courseName}`}</Typography>
-                <Typography variant="body2"> {`${course.courseNumber} : ${course.classNumber}분반`} </Typography>
-                <Typography variant="body2"> {`${course.professor} 교수님`} </Typography>
-            </div>
-
-            <div className={classes.overlay2}>
-                <Button style={{color: 'white'}} size="small" onClick={()=>{dispatch(setCourseId(course)); history.push("/bulletin");}}>
-                    <MoreHorizIcon fontSize="default"/>
-                </Button>
-            </div>
-
-
             <div className={classes.detailsTop}>
-                <Typography variant="body2" color="textSecondary"> {`${course.year}년 1학기`}</Typography>
+                <Typography variant="h6"> {`[${titleExplanation}] ${bulletin.title}`}</Typography>
             </div>
 
             <div className={classes.detailsBottom}>
-                <Typography variant="body2" color="textSecondary"> 최근 업데이트: {moment(course.updatedAt).fromNow()} </Typography>
+                <Typography variant="body2" color="textSecondary"> {`${bulletin.content}`}</Typography>
+            </div>
+
+            <div className={classes.detailsBottom}>
+                <Typography display="inline" align="right" variant="body2" color="textSecondary"> 최근 업데이트: {moment(bulletin.updatedAt).fromNow()} </Typography>
             </div>
 
 
             <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => {selectCourse()}}>
+                <Button size="small" color="primary" onClick={() => {selectBulletin()}}>
                     <EditIcon fontSize="small" />
                     Edit
                 </Button>
 
-                <Button size="small" color="primary" onClick={() => dispatch(deleteCourse(course._id))}>
+                <Button size="small" color="primary" onClick={() => {deleteBulletin()}}>
                     <DeleteOutlineIcon fontSize="small" />
                     Delete
                 </Button>
@@ -80,4 +88,4 @@ const Course = ({ course }) => {
     );
 }
 
-export default Course;
+export default Bulletin;
