@@ -3,6 +3,9 @@ import React, { useEffect } from 'react';
 // redux
 import { useDispatch } from 'react-redux';
 import { getCourses } from '../../actions/courses'
+import { resetCourseId } from '../../actions/currentCourse';
+import { resetBulletinId } from '../../actions/currentBulletin';
+
 
 // route
 import { useHistory } from 'react-router-dom';
@@ -32,12 +35,12 @@ const CoursePage = () => {
                 <Toolbar>
 
                     <IconButton edge="start" className={classes.startIconButton} color="inherit" aria-label="lastest"
-                        onClick={() => {history.push("/");}}>
+                        onClick={() => {dispatch(resetCourseId()); dispatch(resetBulletinId()); history.push("/");}}>
                         <StarBorderIcon fontSize="large"/>
                     </IconButton>
 
                     <IconButton edge="start" className={classes.startIconButton} color="inherit" aria-label="courses"
-                        onClick={() => {history.push("/course");}}>
+                        onClick={() => {dispatch(resetCourseId()); dispatch(resetBulletinId()); history.push("/course");}}>
                         <MenuBookIcon fontSize="large"/>
                     </IconButton>
 
@@ -46,7 +49,7 @@ const CoursePage = () => {
                     </Typography>
 
                     <IconButton edge="end" color="inherit" aria-label="profile"
-                        onClick={() => {history.push("/userprofile");}}>
+                        onClick={() => {dispatch(resetCourseId()); dispatch(resetBulletinId()); history.push("/userprofile");}}>
                         <AccountCircleIcon fontSize="large"/>
                     </IconButton>
 

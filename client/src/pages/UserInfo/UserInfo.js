@@ -1,5 +1,10 @@
 import React from 'react';
 
+//redux
+import { useDispatch } from 'react-redux';
+import { resetCourseId } from '../../actions/currentCourse';
+import { resetBulletinId } from '../../actions/currentBulletin';
+
 //front UI
 import {Container, AppBar, Typography, Grow, Grid, Toolbar} from '@material-ui/core';
 import ProfileForm from '../../components/ProfileForm/ProfileForm';
@@ -15,6 +20,7 @@ import { useHistory } from 'react-router-dom';
 const UserInfo = () => {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch = useDispatch();
 
     return (
         <Container maxidth="lg" >
@@ -22,12 +28,12 @@ const UserInfo = () => {
                 <Toolbar>
 
                     <IconButton edge="start" className={classes.startIconButton} color="inherit" aria-label="lastest"
-                        onClick={() => {history.push("/");}}>
+                        onClick={() => {dispatch(resetCourseId()); dispatch(resetBulletinId()); history.push("/");}}>
                         <StarBorderIcon fontSize="large"/>
                     </IconButton>
 
                     <IconButton edge="start" className={classes.startIconButton} color="inherit" aria-label="courses"
-                        onClick={() => {history.push("/course");}}>
+                        onClick={() => {dispatch(resetCourseId()); dispatch(resetBulletinId()); history.push("/course");}}>
                         <MenuBookIcon fontSize="large"/>
                     </IconButton>
 
@@ -36,7 +42,7 @@ const UserInfo = () => {
                     </Typography>
 
                     <IconButton edge="end" color="inherit" aria-label="profile"
-                        onClick={() => {history.push("/userprofile");}}>
+                        onClick={() => {dispatch(resetCourseId()); dispatch(resetBulletinId()); history.push("/userprofile");}}>
                         <AccountCircleIcon fontSize="large"/>
                     </IconButton>
 
