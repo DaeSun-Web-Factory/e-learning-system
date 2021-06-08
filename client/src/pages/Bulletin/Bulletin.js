@@ -1,8 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-// redux
-import { useDispatch } from 'react-redux';
-import { getCourses } from '../../actions/courses'
 
 //front UI
 import {Container, AppBar, Typography, Grow, Grid, Toolbar} from '@material-ui/core';
@@ -21,7 +18,6 @@ import { useHistory } from 'react-router-dom';
 
 const Bulletin = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const history = useHistory();
 
 

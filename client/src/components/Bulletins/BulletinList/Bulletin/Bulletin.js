@@ -31,10 +31,11 @@ const Bulletin = ({ bulletin }) => {
     }
 
     const deleteBulletin = () => {
-        
-
         let newCourseData = Object.assign({}, currentCourse);
+        const bulletinIndex = newCourseData.bulletins.indexOf(bulletin)
+        if (bulletinIndex > -1) newCourseData.bulletins.splice(bulletinIndex, 1)
 
+        dispatch(updateCourse(currentCourseId, newCourseData));
     }
 
     //text
@@ -63,11 +64,13 @@ const Bulletin = ({ bulletin }) => {
                 <Typography variant="h6"> {`[${titleExplanation}] ${bulletin.title}`}</Typography>
             </div>
 
-            <div className={classes.detailsBottom}>
-                <Typography variant="body2" color="textSecondary"> {`${bulletin.content}`}</Typography>
-            </div>
+            {bulletin.content.split('\n').map((sentence) => (
+                <div className={classes.details}>
+                    <Typography variant="body2" color="textSecondary"> {`${sentence}`}</Typography>
+                </div>
+            ))}
 
-            <div className={classes.detailsBottom}>
+            <div className={classes.detailsTop}>
                 <Typography display="inline" align="right" variant="body2" color="textSecondary"> 최근 업데이트: {moment(bulletin.updatedAt).fromNow()} </Typography>
             </div>
 

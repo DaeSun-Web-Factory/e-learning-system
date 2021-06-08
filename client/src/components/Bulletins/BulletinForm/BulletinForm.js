@@ -8,13 +8,12 @@ import { updateCourse } from '../../../actions/courses';
 import { resetBulletinId } from '../../../actions/currentBulletin';
 
 //UI
-import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio, Checkbox } from '@material-ui/core';
+import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio, Checkbox, TextareaAutosize } from '@material-ui/core';
 
 import { NOTICE, ASSIGNMENT } from '../../../constants/bulletinType'
 import useStyles from './style';
 
 const BulletinForm = () => {
-    const myUser = useSelector((state) => state.myUser);
     const currentCourseId = useSelector((state) => state.currentCourse._id);
     const currentCourse = useSelector ((state) => currentCourseId? state.courses.find((c) => c._id === currentCourseId) : null);
 
@@ -133,13 +132,13 @@ const BulletinForm = () => {
                     label="공지사항"
                 />
 
-                <TextField 
-                    name="content" 
-                    variant="outlined" 
-                    label="내용" 
-                    fullWidth
-                    value={bulletinData.content}
-                    onChange={(e) => setBulletinData({...bulletinData, content: e.target.value})}
+                <TextareaAutosize 
+                    className = {classes.contentText}
+                    value={bulletinData.content} 
+                    onChange={(e) => setBulletinData({...bulletinData, content: e.target.value})} 
+                    aria-label="minimum height" 
+                    rowsMin={3} 
+                    placeholder="내용" 
                 />
 
                 <Button 

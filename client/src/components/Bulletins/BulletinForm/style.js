@@ -18,6 +18,11 @@ export default makeStyles((theme) => ({
         width: '97%',
         margin: '10px 0',
     },
+    contentText: {
+        width: '97%',
+        margin: '10px 0',
+        fontSize: "1.3em"
+    },
     buttonSubmit: {
         marginBottom: 10,
         width: '97%',

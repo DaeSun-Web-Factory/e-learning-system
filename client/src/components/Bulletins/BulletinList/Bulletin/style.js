@@ -43,6 +43,11 @@ export default makeStyles({
     marginLeft: '20px',
     marginTop: '20px',
   },
+  details: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginLeft: '20px',
+  },
   detailsBottom: {
     display: 'flex',
     justifyContent: 'space-between',

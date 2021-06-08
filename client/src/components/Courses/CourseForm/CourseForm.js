@@ -15,14 +15,13 @@ import { STUDENT } from '../../../constants/authorityType';
 
 
 const CourseForm = () => {
-    const users = useSelector((state) => state.users);
     const myUser = useSelector((state) => state.myUser);
     const currentCourseId = useSelector((state) => state.currentCourse._id);
     const currentCourse = useSelector ((state) => currentCourseId? state.courses.find((c) => c._id === currentCourseId) : null);
 
     const dispatch = useDispatch();
 
-    const students = users.filter(user => user.authority === STUDENT);
+    const students = useSelector((state) => state.users.filter(user => user.authority === STUDENT));
     const studentIndeces = [...Array(students.length).keys()]
 
     const [courseData, setCourseData] = useState({
@@ -48,7 +47,7 @@ const CourseForm = () => {
 
             setCheckedStudentIndeces(originalStudentIndeces)
         }
-    }, [currentCourse])
+    }, [currentCourse, students])
 
 
     const handleToggle = (value) => () => {
