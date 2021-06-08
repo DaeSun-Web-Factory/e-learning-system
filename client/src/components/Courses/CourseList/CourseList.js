@@ -10,9 +10,10 @@ const CourseList = () => {
     const allCourses = useSelector((state) => state.courses);
     const myUser = useSelector((state) => state.myUser);
 
-    const courses = allCourses.filter(course => course.professor === myUser.name);
-    const classes = useStyles();
+    let courses = allCourses.filter(course => course.professor === myUser.name);
+    courses.sort((a, b) => (a.updatedAt > b.updatedAt) ? -1 : 1);
 
+    const classes = useStyles();
 
     return (
         !courses.length ? <CircularProgress/> : (
