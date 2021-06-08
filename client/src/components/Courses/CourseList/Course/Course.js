@@ -1,5 +1,9 @@
 import React from 'react';
 
+// route
+import { useHistory } from 'react-router-dom';
+
+
 //redux
 import { useDispatch } from 'react-redux';
 import { setCourseId } from '../../../../actions/currentCourse.js'
@@ -12,6 +16,7 @@ import { WINTER_SESSIONS, SPRING_SEMESTER, SUMMER_SESSIONS, FALL_SEMESTER } from
 import { Card, CardActions, CardMedia, Button, Typography } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import moment from 'moment';
 import useStyles from './style';
 
@@ -43,12 +48,15 @@ import psyImage from '../../../../images/psy.png';
 */
 
 const Course = ({ course }) => {
+    // route
+    const history = useHistory();
+
+    // redux
     const dispatch = useDispatch();
 
+    // UI
     const classes = useStyles();
-
     const courseUniv = course.courseNumber.slice(-7, -3)
-
     let thumbnail = defaultImage;
 
     switch (courseUniv){
@@ -212,13 +220,19 @@ const Course = ({ course }) => {
     }
 
     return (
-        <Card className={classes.card}>
+        <Card className={classes.card} >
             <CardMedia className={classes.media} image={thumbnail} title={course.courseName}> </CardMedia>
 
             <div className={classes.overlay}>
                 <Typography variant="h6"> {`${course.courseName}`}</Typography>
                 <Typography variant="body2"> {`${course.courseNumber} : ${course.classNumber}분반`} </Typography>
                 <Typography variant="body2"> {`${course.professor} 교수님`} </Typography>
+            </div>
+
+            <div className={classes.overlay2}>
+                <Button style={{color: 'white'}} size="small" onClick={()=>{dispatch(setCourseId(course)); history.push("/bulletin");}}>
+                    <MoreHorizIcon fontSize="default"/>
+                </Button>
             </div>
 
 

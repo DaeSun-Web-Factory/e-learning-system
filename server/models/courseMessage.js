@@ -8,14 +8,7 @@ const courseSchema = mongoose.Schema({
     semester: String,
     professor: String,
     students: [String],
-    bulletins: [{
-        Id: String,
-        type: String,
-        announce: Boolean,
-        title: String,
-        content: String,
-        createdAt: Date,
-    }],
+    bulletins: { type : Array , "default" : [] },
     createdAt: Date,
     updatedAt: Date
         
@@ -24,3 +17,17 @@ const courseSchema = mongoose.Schema({
 const CourseMessage = mongoose.model('CourseMessages', courseSchema);
 
 export default CourseMessage;
+
+
+/*
+bulletins: [{
+        Id: String,
+        type: String,
+        announce: Boolean,
+        title: String,
+        content: String,
+        fileContents: [String],
+        createdAt: Date,
+        updatedAt: Date
+    }],
+*/
