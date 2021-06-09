@@ -25,14 +25,14 @@ const BulletinList = () => {
     return (
         !Bulletins.length ? <CircularProgress/> : (
             <Grid className={classes.container} container alignItems="stretch" spacing={3}>
-                {announceBulletins.map((bulletin) => (
-                    <Grid key={bulletin.Id} item xs={12} sm={12}>
-                        <Bulletin bulletin={bulletin}/>
+                {announceBulletins.map((bulletin, index) => (
+                    <Grid key={index} item xs={12} sm={12}>
+                        <Bulletin  bulletin={bulletin}/>
                     </Grid>
                 ))}
 
-                {notAnnounceBulletins.map((bulletin) => (
-                    <Grid key={bulletin.Id} item xs={12} sm={12}>
+                {notAnnounceBulletins.map((bulletin, index) => (
+                    <Grid key={index} item xs={12} sm={12}>
                         <Bulletin bulletin={bulletin}/>
                     </Grid>
                 ))}

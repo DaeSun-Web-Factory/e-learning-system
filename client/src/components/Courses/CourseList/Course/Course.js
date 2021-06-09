@@ -5,12 +5,13 @@ import { useHistory } from 'react-router-dom';
 
 
 //redux
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCourseId } from '../../../../actions/currentCourse.js'
 import { deleteCourse } from '../../../../actions/courses'
 
 //constants
 import { WINTER_SESSIONS, SPRING_SEMESTER, SUMMER_SESSIONS, FALL_SEMESTER } from '../../../../constants/semesterType'
+import { PROFESSOR } from '../../../../constants/authorityType';
 
 // UI
 import { Card, CardActions, CardMedia, Button, Typography } from '@material-ui/core';
@@ -27,7 +28,7 @@ import literalImage from '../../../../images/liberalArts.jpeg';
 import bioImage from '../../../../images/lifeScience.jpeg';
 import poliEcoImage from '../../../../images/politicsEconomics.jpeg';
 import scienceImage from '../../../../images/science.jpeg';
-import engieenImage from '../../../../images/lifeScience.jpeg';
+import engieenImage from '../../../../images/engieen.jpeg';
 import doctorImage from '../../../../images/medicine.jpeg';
 import teacherImage from '../../../../images/teacher.jpeg';
 import nurseImage from '../../../../images/nurse.jpeg';
@@ -53,6 +54,8 @@ const Course = ({ course }) => {
 
     // redux
     const dispatch = useDispatch();
+    const myUser = useSelector((state) => state.myUser);
+
 
     // UI
     const classes = useStyles();
@@ -244,18 +247,21 @@ const Course = ({ course }) => {
                 <Typography variant="body2" color="textSecondary"> 최근 업데이트: {moment(course.updatedAt).fromNow()} </Typography>
             </div>
 
+            {myUser.authority === PROFESSOR ? 
+                <CardActions className={classes.cardActions}>
+                    <Button size="small" color="primary" onClick={() => {selectCourse()}}>
+                        <EditIcon fontSize="small" />
+                        Edit
+                    </Button>
 
-            <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => {selectCourse()}}>
-                    <EditIcon fontSize="small" />
-                    Edit
-                </Button>
-
-                <Button size="small" color="primary" onClick={() => dispatch(deleteCourse(course._id))}>
-                    <DeleteOutlineIcon fontSize="small" />
-                    Delete
-                </Button>
-            </CardActions>
+                    <Button size="small" color="primary" onClick={() => dispatch(deleteCourse(course._id))}>
+                        <DeleteOutlineIcon fontSize="small" />
+                        Delete
+                    </Button>
+                </CardActions>
+                :
+                null
+            }
 
         </Card>
     );

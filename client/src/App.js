@@ -9,6 +9,7 @@ import UserAuthO from './pages/UserInfo/UserAuthO/UserAuthO.js';
 import UserEdit from './pages/UserInfo/UserEdit/UserEdit.js';
 import CoursePage from './pages/CoursePage/CoursePage.js';
 import Bulletin from './pages/Bulletin/Bulletin.js';
+import LastActivity from './pages/LastActivity/LastActivity.js'
 
 const App = () => {
     return (
@@ -20,6 +21,7 @@ const App = () => {
             <Route path="/useredit" component={UserEdit} />
             <Route path="/course" component={CoursePage} />
             <Route path="/bulletin" component={Bulletin} />
+            <Route path="/lastactivity" component={LastActivity} />
         </div>
     )
 }

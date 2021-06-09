@@ -8,6 +8,7 @@ import { setBulletinId } from '../../../../actions/currentBulletin'
 
 //constants
 import { NOTICE, ASSIGNMENT } from '../../../../constants/bulletinType';
+import { PROFESSOR } from '../../../../constants/authorityType';
 
 // UI
 import { Card, CardActions, Button, Typography } from '@material-ui/core';
@@ -22,6 +23,7 @@ const Bulletin = ({ bulletin }) => {
     const dispatch = useDispatch();
     const currentCourseId = useSelector((state) => state.currentCourse._id);
     const currentCourse = useSelector ((state) => currentCourseId? state.courses.find((c) => c._id === currentCourseId) : null);
+    const myUser = useSelector((state) => state.myUser);
 
     // UI
     const classes = useStyles();
@@ -66,8 +68,8 @@ const Bulletin = ({ bulletin }) => {
 
             {bulletin.content!==undefined ? 
                 bulletin.content.includes('\n') ? 
-                    bulletin.content.split('\n').map((sentence) => (
-                        <div className={classes.details}>
+                    bulletin.content.split('\n').map((sentence, index) => (
+                        <div key={index} className={classes.details}>
                             <Typography variant="body2" color="textSecondary"> {`${sentence}`}</Typography>
                         </div>
                     ))
@@ -84,18 +86,21 @@ const Bulletin = ({ bulletin }) => {
                 <Typography display="inline" align="right" variant="body2" color="textSecondary"> 최근 업데이트: {moment(bulletin.updatedAt).fromNow()} </Typography>
             </div>
 
+            {myUser.authority === PROFESSOR ? 
+                <CardActions className={classes.cardActions}>
+                    <Button size="small" color="primary" onClick={() => {selectBulletin()}}>
+                        <EditIcon fontSize="small" />
+                        Edit
+                    </Button>
 
-            <CardActions className={classes.cardActions}>
-                <Button size="small" color="primary" onClick={() => {selectBulletin()}}>
-                    <EditIcon fontSize="small" />
-                    Edit
-                </Button>
-
-                <Button size="small" color="primary" onClick={() => {deleteBulletin()}}>
-                    <DeleteOutlineIcon fontSize="small" />
-                    Delete
-                </Button>
-            </CardActions>
+                    <Button size="small" color="primary" onClick={() => {deleteBulletin()}}>
+                        <DeleteOutlineIcon fontSize="small" />
+                        Delete
+                    </Button>
+                </CardActions>
+                :
+                null
+            }
 
         </Card>
     );

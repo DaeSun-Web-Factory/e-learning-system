@@ -16,6 +16,9 @@ export default makeStyles((theme) => ({
   startIconButton: {
     marginRight: theme.spacing(2),
   },
+  endIconButton: {
+    marginLeft: theme.spacing(2),
+  },
   title: {
     flexGrow: 1,
     fontWeight: 'bold',
@@ -36,6 +39,12 @@ export default makeStyles((theme) => ({
   [theme.breakpoints.down('sm')] : {
     mainContainer:{
       flexDirection: "column-reverse"
+    }
+  }, 
+
+  [theme.breakpoints.up('sm')] : {
+    mainContainer:{
+        display: 'flex',
     }
   }
 
