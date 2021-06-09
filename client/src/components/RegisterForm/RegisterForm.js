@@ -43,6 +43,36 @@ const RegisterForm = () => {
             alert('비밀번호가 서로 일치하지 않습니다.');
             return;
         }
+
+        if(userData.userId.length <= 0){
+            alert('ID는 필수 입력항목입니다.');
+            return;
+        }
+
+        if(userData.password.length <= 0){
+            alert('Password는 필수 입력항목입니다.');
+            return;
+        }
+
+        if(userData.name.length <= 0){
+            alert('User Name은 필수 입력항목입니다.');
+            return;
+        }
+
+        if(userData.userNumber.length <= 0){
+            alert('학번/교번은 필수 입력항목입니다.');
+            return;
+        }
+
+        if(userData.authority.length <= 0){
+            alert('학생/교수 선택은 필수 입력항목입니다.');
+            return;
+        }
+
+        if(userData.email.length <= 0){
+            alert('Email은 필수 입력항목입니다.');
+            return;
+        }
         
         const secret = process.env.REACT_APP_PASSWORD_SECRET_KEY;
 
