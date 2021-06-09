@@ -64,15 +64,20 @@ const Bulletin = ({ bulletin }) => {
                 <Typography variant="h6"> {`[${titleExplanation}] ${bulletin.title}`}</Typography>
             </div>
 
-            {bulletin.content.includes('\n') ? bulletin.content.split('\n').map((sentence) => (
+            {bulletin.content!==undefined ? 
+                bulletin.content.includes('\n') ? 
+                    bulletin.content.split('\n').map((sentence) => (
+                        <div className={classes.details}>
+                            <Typography variant="body2" color="textSecondary"> {`${sentence}`}</Typography>
+                        </div>
+                    ))
+                    :
                     <div className={classes.details}>
-                        <Typography variant="body2" color="textSecondary"> {`${sentence}`}</Typography>
+                        <Typography variant="body2" color="textSecondary"> {`${bulletin.content}`}</Typography>
                     </div>
-                ))
+
                 :
-                <div className={classes.details}>
-                    <Typography variant="body2" color="textSecondary"> {`${bulletin.content}`}</Typography>
-                </div>
+                null
             }
 
             <div className={classes.detailsTop}>
