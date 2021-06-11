@@ -28,7 +28,11 @@ const LastActivityList = () => {
     let bulletins = []
 
     for (let courseIndex=0; courseIndex < courses.length; courseIndex++){
-        bulletins = bulletins.concat(courses[courseIndex].bulletins);
+        const currentCourse = courses[courseIndex];
+        for (let bulletinIndex=0; bulletinIndex < currentCourse.bulletins.length; bulletinIndex++){
+            const richBulletin = Object.assign(currentCourse.bulletins[bulletinIndex], {course:currentCourse})
+            bulletins = bulletins.concat(richBulletin)
+        }
     }
     
 

@@ -66,21 +66,9 @@ const Bulletin = ({ bulletin }) => {
                 <Typography variant="h6"> {`[${titleExplanation}] ${bulletin.title}`}</Typography>
             </div>
 
-            {bulletin.content!==undefined ? 
-                bulletin.content.includes('\n') ? 
-                    bulletin.content.split('\n').map((sentence, index) => (
-                        <div key={index} className={classes.details}>
-                            <Typography variant="body2" color="textSecondary"> {`${sentence}`}</Typography>
-                        </div>
-                    ))
-                    :
-                    <div className={classes.details}>
-                        <Typography variant="body2" color="textSecondary"> {`${bulletin.content}`}</Typography>
-                    </div>
-
-                :
-                null
-            }
+            <div className={classes.details}>
+                <div dangerouslySetInnerHTML={{__html: bulletin.content}} />
+            </div>
 
             <div className={classes.detailsTop}>
                 <Typography display="inline" align="right" variant="body2" color="textSecondary"> 최근 업데이트: {moment(bulletin.updatedAt).fromNow()} </Typography>

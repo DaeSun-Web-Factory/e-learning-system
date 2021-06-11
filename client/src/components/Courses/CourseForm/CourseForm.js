@@ -47,7 +47,7 @@ const CourseForm = () => {
 
             setCheckedStudentIndeces(originalStudentIndeces)
         }
-    }, [currentCourse, students])
+    }, [currentCourse])
 
 
     const handleToggle = (value) => () => {
@@ -85,6 +85,10 @@ const CourseForm = () => {
     
             dispatch(updateCourse(currentCourseId, newCourseData));
         }
+
+        setCourseData({courseName: '', courseNumber: '', classNumber: '', year: '', semester: ''});
+        setCheckedStudentIndeces([]);
+        dispatch(resetCourseId())
         
     }
 

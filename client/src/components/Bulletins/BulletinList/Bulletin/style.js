@@ -54,6 +54,8 @@ export default makeStyles({
     justifyContent: 'space-between',
     marginLeft: '20px',
     marginBottom: '20px',
+    fontSize: '2em',
+    fontWeight: 'bolder'
   },
   title: {
     padding: '0 16px',
@@ -62,5 +64,5 @@ export default makeStyles({
     padding: '0 16px 8px 16px',
     display: 'flex',
     justifyContent: 'space-between',
-  },
+  }
 });

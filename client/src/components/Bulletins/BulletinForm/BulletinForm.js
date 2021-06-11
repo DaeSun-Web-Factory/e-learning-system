@@ -7,11 +7,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateCourse } from '../../../actions/courses';
 import { resetBulletinId } from '../../../actions/currentBulletin';
 
-//UI
-import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio, Checkbox, TextareaAutosize } from '@material-ui/core';
-
+//UI Components
+import { TextField, Button, Typography, Paper, RadioGroup, FormControlLabel, Radio, Checkbox } from '@material-ui/core';
 import { NOTICE, ASSIGNMENT } from '../../../constants/bulletinType'
 import useStyles from './style';
+
+//Quill
+import ReactQuill from 'react-quill';
+import "../../../../node_modules/react-quill/dist/quill.snow.css";
 
 const BulletinForm = () => {
     const currentCourseId = useSelector((state) => state.currentCourse._id);
@@ -46,8 +49,6 @@ const BulletinForm = () => {
     
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log(currentBuelltinId)
 
         //create
         if (!currentBuelltinId){
@@ -132,13 +133,16 @@ const BulletinForm = () => {
                     label="공지사항"
                 />
 
-                <TextareaAutosize 
+
+                <ReactQuill
                     className = {classes.contentText}
-                    value={bulletinData.content} 
-                    onChange={(e) => setBulletinData({...bulletinData, content: e.target.value})} 
-                    aria-label="minimum height" 
-                    rowsMin={3} 
                     placeholder="내용" 
+                    modules={BulletinForm.modules}
+                    formats={BulletinForm.formats}
+                    value={bulletinData.content} 
+                    rowsMin={3} 
+                    aria-label="minimum height" 
+                    onChange={(e) => setBulletinData({...bulletinData, content: e})} 
                 />
 
                 <Button 
